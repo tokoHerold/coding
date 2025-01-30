@@ -30,22 +30,24 @@ void read_temp(const char * hwmon_path, char * buf, int bufsize) {
     // Remove newline character at end of line
     char* newline = strchr(buf, '\n');
     if(newline != NULL) {
-      *newline = '0';
+        *newline = '0';
     }
 }
 
-int main() {
+int main(int argc, char **argv) {
 
-  for (int i = 0; i < N_MEASUREMENTS; ++i) {
-    char tctl[10];
-    char cpu[10];
 
-    read_temp(TCTL_PATH, tctl, 10);
-    read_temp(CPUTMP_PATH, cpu, 10);
 
-    printf("%s\t%s\n", tctl, cpu);
-    fflush(stdout);
-    usleep(MILLIS * 1000); // 200 milliseconds
-  }
-  return 0;
+    for (int i = 0; i < N_MEASUREMENTS; ++i) {
+        char tctl[10];
+        char cpu[10];
+
+        read_temp(TCTL_PATH, tctl, 10);
+        read_temp(CPUTMP_PATH, cpu, 10);
+
+        printf("%s\t%s\n", tctl, cpu);
+        fflush(stdout);
+        usleep(MILLIS * 1000); // 200 milliseconds
+    }
+    return 0;
 }
