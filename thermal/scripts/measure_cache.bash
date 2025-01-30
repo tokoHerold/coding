@@ -17,7 +17,7 @@ echo Cooling down...
 sleep 60
 
 echo "Measuring non-cache-aware program..."
-taskset --cpu-list $((NCPUS - 1)) ./out/bad_cache
+taskset --cpu-list $((NCPUS - 1)) ./out/bad_cache &
 bPID=$!
 ./out/temp/ $HWMON > data/bad_cache.txt
 kill $bPID
