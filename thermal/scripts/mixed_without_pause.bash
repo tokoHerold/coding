@@ -1,5 +1,6 @@
 #!/bin/bash
 
+HWMON="/sys/class/hwmon/hwmon5/temp1_input /sys/class/hwmon/hwmon6/temp2_input"
 N_MEASUREMENTS=500
 ITERATIONS=4
 MILLIS=50
@@ -28,11 +29,11 @@ do
    # Execute target application for present page
    taskset --cpu-list 0 ./out/page_prefetch &
    targetPID=$!
-   ./out/temp > $FILENAME"_present_$i.txt"
+   ./out/temp $HWMON > $FILENAME"_present_$i.txt"
    kill $targetPID
 
    taskset --cpu-list 0 ./out/page_prefetch 0x0 &
    targetPID=$!
-   ./out/temp > $FILENAME"_nonpresent_$i.txt"
+   ./out/temp $HWMON > $FILENAME"_nonpresent_$i.txt"
    kill $targetPID
 done

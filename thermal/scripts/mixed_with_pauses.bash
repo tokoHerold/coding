@@ -4,7 +4,8 @@ N_MEASUREMENTS=500
 ITERATIONS=4
 MILLIS=100
 FILENAME=data/alternating
-N_CPUS=1
+N_CPUS=8
+HWMON="/sys/class/hwmon/hwmon5/temp1_input /sys/class/hwmon/hwmon6/temp2_input"
 # Number of measurements * time between measurements in milliseconds
 
 
@@ -55,7 +56,7 @@ function run {
     # taskset --cpu-list $((i % 3)) ./out/page_prefetch &
     # targetPID=$!
     execute ./out/page_prefetch
-    ./out/temp > $output_file_1
+    ./out/temp $HWMON > $output_file_1
     # kill $targetPID
     terminate
     sleep 120
@@ -63,7 +64,7 @@ function run {
     # taskset --cpu-list $((i % 3 + (N_CPUS/2))) ./out/page_prefetch 0x0 &
     # targetPID=$!
     execute ./out/page_prefetch 0x0
-    ./out/temp > $output_file_2
+    ./out/temp $HWMON > $output_file_2
     # kill $targe3tPID
     terminate
     sleep 120

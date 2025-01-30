@@ -7,16 +7,17 @@ CFLAGS = -O0
 BUILD_DIR := .build
 OUT_DIR := out
 DIRS = $(BUILD_DIR) $(OUT_DIR)
-CACHE := $(patsubst src/cache/%.c,$(OUT_DIR)/cache/%,$(wildcard src/cache/*.c)) $(OUT_DIR)/temp
-PAGE := $(patsubst src/page/%.c,$(OUT_DIR)/page/%,$(wildcard src/page/*.c)) $(OUT_DIR)/temp
+CACHE := $(patsubst src/cache/%.c,$(OUT_DIR)/cache/%,$(wildcard src/cache/*.c)) temp
+PAGE := $(patsubst src/page/%.c,$(OUT_DIR)/page/%,$(wildcard src/page/*.c)) temp
 
 print:
 	echo print $(CACHE)
 
-all: cache pagemap
+all: cache pagemap temp
 
 cache: $(CACHE)
 page: $(PAGE)
+temp: $(OUT_DIR)/temp
 
 clean:
 	rm -rf $(BUILD_DIR) $(OUT_DIR)
