@@ -3,8 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define TCTL_PATH  "/sys/class/hwmon/hwmon5/temp1_input"
-#define CPUTMP_PATH "/sys/class/hwmon/hwmon6/temp2_input"
+#define BUFSIZE 10
+#define DELIM "\t"
 
 #ifndef N_MEASUREMENTS
 #define N_MEASUREMENTS 500
@@ -20,7 +20,14 @@ void die(const char * msg) {
     exit(EXIT_FAILURE);
 }
 
-void read_temp(const char * hwmon_path, char * buf, int bufsize) {
+/**
+ * Accesses and reads the current content of a HWMON file.
+ * @param hwmon_path Path to the desired HWMON file
+ * @param buf Buffer to store the read content in
+ * @param bufsize Size of buf
+ * @return A string containing the current value of the HWMON file
+ */
+char * read_hwmon(const char * hwmon_path, char * buf, int bufsize) {
     // Read file content
     FILE * hwmon_file = fopen(hwmon_path, "r");
     if (hwmon_file == NULL) die("fopen");
@@ -32,20 +39,35 @@ void read_temp(const char * hwmon_path, char * buf, int bufsize) {
     if(newline != NULL) {
         *newline = '0';
     }
+    return buf;
 }
 
 int main(int argc, char **argv) {
 
+    if (argc == 1) {
+        fprintf(stderr, "Usage: %s <hwmon_file 1> [hwmon_file 2] ...", argv[0]);
+        exit(-1);
+    }
 
+    char *buffers[argc - 1];
+    for (int i = 0; i < argc - 1; ++i) {
+        buffers[i] = calloc(BUFSIZE, sizeof(char *));
+        if (buffers[i] == NULL) die("malloc");
+    }
 
     for (int i = 0; i < N_MEASUREMENTS; ++i) {
-        char tctl[10];
-        char cpu[10];
 
-        read_temp(TCTL_PATH, tctl, 10);
-        read_temp(CPUTMP_PATH, cpu, 10);
+        int i = 0;
+        char * res;
+        goto delim;
+        for (; i < argc - 1; ++i) {
+            printf(DELIM);
+            delim:
+            res = read_hwmon(argv[i + 1], buffers[i], BUFSIZE);
+            printf("%s", res);
+        }
 
-        printf("%s\t%s\n", tctl, cpu);
+        printf("\n");
         fflush(stdout);
         usleep(MILLIS * 1000); // 200 milliseconds
     }
