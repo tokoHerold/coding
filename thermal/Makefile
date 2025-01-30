@@ -10,9 +10,6 @@ DIRS = $(BUILD_DIR) $(OUT_DIR)
 CACHE := $(patsubst src/cache/%.c,$(OUT_DIR)/cache/%,$(wildcard src/cache/*.c)) temp
 PAGE := $(patsubst src/page/%.c,$(OUT_DIR)/page/%,$(wildcard src/page/*.c)) temp
 
-print:
-	echo print $(CACHE)
-
 all: cache pagemap temp
 
 cache: $(CACHE)
