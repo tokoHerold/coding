@@ -9,6 +9,9 @@ N=100000
 make cache CFLAGS="-O0 -DMILLIS=2 -DN_MEASUREMENTS=$N"
 mkdir -p data
 
+echo Measure baseline...
+taskset --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/baseline_$FILENAME.txt
+
 echo "Measuring cache-aware program..."
 taskset --cpu-list $TARGET_CORE ./out/good_cache &
 bPID=$!
