@@ -1,28 +1,33 @@
 #!/bin/bash
 
 HWMON=/sys/class/hwmon/hwmon1/temp*_input
-NCPUS=8
+TARGET_CORE=1
+COLLECTING_CORE=8
+FILENAME=cache
+N=100000
 
-make cache CFLAGS="-O0 -DMILLIS=2"
+make cache CFLAGS="-O0 -DMILLIS=2 -DN_MEASUREMENTS=$N"
 mkdir -p data
 
-for i in $(seq 1 4);
-do
-    echo "Measuring cache-aware program..."
-    taskset --cpu-list $((NCPUS - 1)) ./out/good_cache &
-    bPID=$!
-    ./out/temp $HWMON > data/good_cache_$i.txt
-    kill $bPID
-    echo ...done!
-    echo Cooling down...
+echo "Measuring cache-aware program..."
+taskset --cpu-list $TARGET_CORE ./out/good_cache &
+bPID=$!
+echo "Warming up..."
+sleep 30
+echo Measuring
+tasksetk --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/good_$FILENAME.txt
+kill $bPID
+echo ...done!
 
-    sleep 3
+echo Cooling down...
+sleep 30
 
-    echo "Measuring non-cache-aware program..."
-    taskset --cpu-list $((NCPUS - 1)) ./out/bad_cache &
-    bPID=$!
-    ./out/temp $HWMON > data/bad_cache_$i.txt
-    kill $bPID
-    echo ...done!
-    sleep 3
-done
+echo "Measuring non-cache-aware program..."
+taskset --cpu-list $TARGET_CORE ./out/bad_cache &
+bPID=$!
+echo "Warming up..."
+sleep 30
+echo Measuring...
+.tasksetk --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/bad_$FILENAME.txt
+kill $bPID
+echo ...done!
