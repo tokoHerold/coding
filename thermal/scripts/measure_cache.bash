@@ -1,8 +1,8 @@
 #!/bin/bash
 
 HWMON=/sys/class/hwmon/hwmon1/temp*_input
-TARGET_CORE=1
-COLLECTING_CORE=8
+TARGET_CORE=0
+COLLECTING_CORE=7
 FILENAME=cache
 N=100000
 
@@ -15,7 +15,7 @@ bPID=$!
 echo "Warming up..."
 sleep 30
 echo Measuring
-tasksetk --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/good_$FILENAME.txt
+taskset --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/good_$FILENAME.txt
 kill $bPID
 echo ...done!
 
@@ -28,6 +28,6 @@ bPID=$!
 echo "Warming up..."
 sleep 30
 echo Measuring...
-.tasksetk --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/bad_$FILENAME.txt
+taskset --cpu-list $COLLECTING_CORE ./out/temp $HWMON > data/bad_$FILENAME.txt
 kill $bPID
 echo ...done!
