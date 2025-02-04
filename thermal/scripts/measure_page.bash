@@ -1,7 +1,8 @@
 #!/bin/bash
 
 HWMON=/sys/class/hwmon/hwmon1/temp*_input
-NCPUS=8
+TARGET_CPU=0
+COLLECTING_CPU=7
 MILLIS=2
 N=100000
 
@@ -12,10 +13,10 @@ echo "Measuring Baseline"
 ./out/temp $HWMON > data/baseline_page.txt
 
 echo "Measuring page accesses program..."
-taskset --cpu-list $((NCPUS - 1)) ./out/page_prefetch &
+taskset --cpu-list $TARGET_CPU ./out/page_prefetch &
 bPID=$!
 sleep $(bc <<< "scale=1; $MILLIS/100")
-./out/temp $HWMON > data/present_page.txt
+tasksetk --cpu-list  ./out/temp $HWMON > data/present_page.txt
 kill $bPID
 echo ...done!
 echo Cooling down...
@@ -23,9 +24,9 @@ echo Cooling down...
 sleep 120
 
 echo "Measuring unpaged accesses program..."
-taskset --cpu-list $((NCPUS - 1)) ./out/page_prefetch 0x0 &
+taskset --cpu-list $TARGET_CPU ./out/page_prefetch 0x7ffffffff000 &
 bPID=$!
 sleep $(bc <<< "scale=1; $MILLIS/100")
-./out/temp $HWMON > data/non_present_page.txt
+tasksetk --cpu-list $COLLECTING_CPU ./out/temp $HWMON > data/non_present_page.txt
 kill $bPID
 echo ...done!
