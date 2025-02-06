@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HWMON = "/sys/class/hwmon/hwmon1/temp2_input"
+HWMON="/sys/class/hwmon/hwmon1/temp2_input"
 MILLIS=2
 N=100000
 NCPUS=8
