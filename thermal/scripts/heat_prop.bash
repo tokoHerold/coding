@@ -2,7 +2,7 @@
 
 HWMON="/sys/class/hwmon/hwmon1/temp2_input"
 MILLIS=2
-N=100000
+N=10000
 NCPUS=8
 COLLECTING_CPU=7
 
