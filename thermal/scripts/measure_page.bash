@@ -16,7 +16,7 @@ echo "Measuring page accesses program..."
 taskset --cpu-list $TARGET_CPU ./out/page_prefetch &
 bPID=$!
 sleep $(bc <<< "scale=1; $MILLIS/100")
-tasksetk --cpu-list  ./out/temp $HWMON > data/present_page.txt
+taskset --cpu-list  ./out/temp $HWMON > data/present_page.txt
 kill $bPID
 echo ...done!
 echo Cooling down...
@@ -24,9 +24,9 @@ echo Cooling down...
 sleep 120
 
 echo "Measuring unpaged accesses program..."
-taskset --cpu-list $TARGET_CPU ./out/page_prefetch 0x7ffffffff000 &
+taskset --cpu-list $TARGET_CPU ./out/page_prefetch 0xcafebabe &
 bPID=$!
 sleep $(bc <<< "scale=1; $MILLIS/100")
-tasksetk --cpu-list $COLLECTING_CPU ./out/temp $HWMON > data/non_present_page.txt
+taskset --cpu-list $COLLECTING_CPU ./out/temp $HWMON > data/non_present_page.txt
 kill $bPID
 echo ...done!
