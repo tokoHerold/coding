@@ -13,9 +13,24 @@
 // Let process run and see how much heat it produces
 
 void run(uintptr_t addr) {
-    __asm__ volatile (
+  __asm__ volatile (
         // Use 16x loop unrolling
         ".loop:\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
+        INSTR " (%0)\n\t"
         INSTR " (%0)\n\t"
         "jmp .loop\n\t"
         :
@@ -34,6 +49,8 @@ int main(int argc, char** argv) {
         char date;
         page_start = (uintptr_t) &date;
         page_start &= ~0xFFF;
+        // Make sure page is present
+        *((char *) page_start) = 'a';
     } else {
         long addr = strtol(argv[1], NULL, 16);
         page_start = (uintptr_t) addr & ~0xFFF;
