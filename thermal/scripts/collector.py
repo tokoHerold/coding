@@ -5,6 +5,9 @@ def average(lst):
     return sum(lst) / len(lst)
 
 
+def median(lst):
+    return sorted(lst)[len(lst)//2]
+
 def create_plot(y_values, y_label, filename, color='tab:blue'):
     plt.figure()
     plt.plot(range(512), y_values, label=y_label, color=color)
@@ -18,6 +21,7 @@ path = "thermalbleed"
 
 max_values = []
 avg_values = []
+med_values = []
 
 # Read files and calculate average and max
 for i in range(512):
@@ -27,9 +31,12 @@ for i in range(512):
 
         avg_value = average(numbers)
         max_value = max(numbers)
+        median_value = median(numbers)
 
         avg_values.append(avg_value)
         max_values.append(max_value)
+        med_values.append(median_value)
 
 create_plot(max_values, "Max-Temperature(°C)", "max_values.pdf")
 create_plot(avg_values, "Avg-Temperature(°C)", "avg_values.pdf", "tab:orange")
+create_plot(med_values, "Med-Temperature(°C)", "med_values.pdf", "tab:green")
