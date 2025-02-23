@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
 
 #ifndef INSTR
 #define INSTR "prefetchnta"
@@ -52,11 +53,16 @@ int main(int argc, char** argv) {
         // Make sure page is present
         *((char *) page_start) = 'a';
     } else {
-        long addr = strtol(argv[1], NULL, 16);
+        errno = 0;
+        long long addr = strtoull(argv[1], NULL, 16);
+        if (errno != 0) {
+          perror("Invalid argument:");
+          exit(-1);
+        }
         page_start = (uintptr_t) addr & ~0xFFF;
     }
 
-    printf("Adress to be tested: %#lx\n", page_start);
+    printf("Adress to be tested: %#llx\n", page_start);
     fflush(stdout);
     run(page_start);
 }
