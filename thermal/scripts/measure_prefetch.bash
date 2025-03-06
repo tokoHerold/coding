@@ -1,4 +1,4 @@
-
+HWMON="/sys/class/hwmon/hwmon1/temp2_input"
 T_N=1000
 FILE=prefetches
 instrs=("prefetcht0" "prefetcht1" "prefetcht2" "prefetchnta")
