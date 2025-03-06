@@ -6,7 +6,7 @@ CORE_0=0
 CORE_N_MINUS_1=7
 
 for instr in "${instrs[@]}"; do
-    make page CFLAGS="-O0 -DINSTR=\\\"$isntr\\\" -DN_MEASUREMENTS=$T_N"
+    make page CFLAGS="-O0 -DINSTR=\\\"$instr\\\" -DN_MEASUREMENTS=$T_N"
     # Present page
     taskset -c $CORE_0 ./out/page_prefetch &
     tPID=$!
