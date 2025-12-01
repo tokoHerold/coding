@@ -5,6 +5,10 @@ edition = "2021"
 
 [dependencies]
 
+[lib]
+name = "utils"
+path = "utils/lib.rs"
+
 [[bin]]
 name = "d01-1"
 path = "d01/safecracker.rs"
