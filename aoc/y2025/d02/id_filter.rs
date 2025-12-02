@@ -1,7 +1,8 @@
 use utils::context;
 
 fn main() {
-    let input = context::get_context().read_lines_or_exit();
+    let ctx = context::Context::new();
+    let input = ctx.read_lines_or_exit();
     let id_ranges = input.split(',');
     let mut sum: i64 = 0;
     for mut range in id_ranges {
@@ -14,7 +15,7 @@ fn main() {
             if valid_id(id) {
                 continue;
             }
-            // println!("Bad id: {}", id);
+            ctx.verbose(format_args!("Bad id: {}", id));
             sum += id;
         }
     }

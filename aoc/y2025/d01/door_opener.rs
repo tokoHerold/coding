@@ -3,7 +3,8 @@ use std::process;
 use utils::context;
 
 fn main() {
-    let input = context::get_context().read_lines_or_exit();
+    let ctx = context::Context::new();
+    let input = ctx.read_lines_or_exit();
     let mut position = 50;
     let mut code = 0;
     for mut line in input.lines() {
@@ -49,7 +50,7 @@ fn main() {
                 process::exit(1);
             }
         }
-        println!("{} Pos: {} - Code: {}", line, position, code);
+        ctx.verbose(format_args!("{} Pos: {} - Code: {}", line, position, code));
     }
     println!("The code is {}.", code);
 }
