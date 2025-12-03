@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use utils::context::Context;
 
 fn main() {
-    let ctx = Context::new();
+    let ctx = Context::get();
     let input = ctx.read_lines_or_exit();
     let id_ranges = input.split(',');
     let mut sum: i64 = 0;

@@ -1,4 +1,7 @@
+use std::sync::OnceLock;
 use std::{env, fs, process};
+
+static GLOBAL_CONTEXT: OnceLock<Context> = OnceLock::new();
 
 pub struct Context {
     filepath: String,
@@ -12,7 +15,7 @@ impl Context {
     ///
     /// This constructor will print an error string and terminate the program
     /// if it receives invalid command line parameters.
-    pub fn new() -> Self {
+    fn new() -> Self {
         let args: Vec<String> = env::args().collect();
         if args.len() < 2 || args.len() > 3 {
             eprintln!("Usage: {} <path-to-file> [-v]", &args[0]);
@@ -29,7 +32,7 @@ impl Context {
         } else {
             Context {
                 filepath: args[1].clone(),
-                verbose: if args.len() == 2 { false }  else { true },
+                verbose: if args.len() == 2 { false } else { true },
             }
         }
     }
@@ -49,9 +52,33 @@ impl Context {
         }
     }
 
+    pub fn get() -> &'static Context {
+        GLOBAL_CONTEXT.get_or_init(|| Context::new())
+    }
+
     pub fn verbose(&self, args: std::fmt::Arguments) {
         if self.verbose {
-            println!("(Verbose) {}", args);
+            println!("(V) {}", args);
         }
+    }
+
+    pub fn verbose_inline(&self, args: std::fmt::Arguments) {
+        if self.verbose {
+            print!("(V) {}", args);
+        }
+    }
+}
+
+#[macro_export]
+macro_rules! verboseln {
+    ($($arg:tt)*) => {
+        Context::get().verbose(format_args!($($arg)*));
+    }
+}
+
+#[macro_export]
+macro_rules! verbose {
+    ($($arg:tt)*) => {
+        Context::get().verbose_inline(format_args!($($arg)*));
     }
 }

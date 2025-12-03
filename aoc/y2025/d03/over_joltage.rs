@@ -1,7 +1,7 @@
-use utils::context::Context;
+use utils::{context::Context, verbose, verboseln};
 
 fn main() {
-    let ctx = Context::new();
+    let ctx = Context::get();
     let input = ctx.read_lines_or_exit();
     let total: i64 = input.lines().map(jolt).sum();
     println!("Sum is {}", total);
@@ -12,7 +12,7 @@ fn jolt(line: &str) -> i64 {
     if line.is_empty() {
         return 0;
     }
-    // print!("{}", trimmed);
+    verbose!("{}", trimmed);
     let mut result = 0;
     let mut multiplicator = 10_00000_00000;
 
@@ -31,6 +31,6 @@ fn jolt(line: &str) -> i64 {
         multiplicator /= 10;
         chars = chars.iter().copied().filter(|(_, i)| i > idx).collect();
     }
-    // println!(" -> {}", result);
+    verboseln!(" -> {}", result);
     result
 }

@@ -1,7 +1,7 @@
 use utils::context;
 
 fn main() {
-    let ctx = context::Context::new();
+    let ctx = context::Context::get();
     let input = ctx.read_lines_or_exit();
     let id_ranges = input.split(',');
     let mut sum: i64 = 0;
