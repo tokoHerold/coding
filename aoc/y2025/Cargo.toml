@@ -24,3 +24,11 @@ path = "d02/id_filter.rs"
 [[bin]]
 name = "d02-2"
 path = "d02/advanced_filter.rs"
+
+[[bin]]
+name = "d03-1"
+path = "d03/joltage.rs"
+
+[[bin]]
+name = "d03-2"
+path = "d03/over_joltage.rs"
