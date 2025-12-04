@@ -32,3 +32,11 @@ path = "d03/joltage.rs"
 [[bin]]
 name = "d03-2"
 path = "d03/over_joltage.rs"
+
+[[bin]]
+name = "d04-1"
+path = "d04/toilet_roll_accessor.rs"
+
+[[bin]]
+name = "d04-2"
+path = "d04/toilet_roll_remover.rs"
