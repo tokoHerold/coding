@@ -33,7 +33,6 @@ fn main() {
             break;
         }
         field = field.difference(&candidates).copied().collect();
-
     }
     println!("Result is {}", initial_size - field.len());
 }
