@@ -6,18 +6,18 @@ use utils::context::Context;
 fn main() {
     let ctx = Context::get();
     let input = ctx.read_lines_or_exit();
-    let mut field: HashSet<(i32, i32)> = HashSet::new();
+    let mut field: HashSet<(i16, i16)> = HashSet::new();
     for (j, line) in input.lines().enumerate() {
         for (i, c) in line.trim().char_indices() {
             if c == '@' {
-                field.insert((i as i32, j as i32));
+                field.insert((i as i16, j as i16));
             }
         }
     }
 
     let initial_size = field.len();
     loop {
-        let candidates: HashSet<(i32, i32)> = field
+        let candidates: HashSet<(i16, i16)> = field
             .iter()
             .filter(|(x, y)| {
                 let i = *x;
