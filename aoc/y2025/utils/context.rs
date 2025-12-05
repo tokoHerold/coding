@@ -52,6 +52,10 @@ impl Context {
         }
     }
 
+    pub fn is_verbose(&self) -> bool {
+        return self.verbose;
+    }
+
     pub fn get() -> &'static Context {
         GLOBAL_CONTEXT.get_or_init(|| Context::new())
     }

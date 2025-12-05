@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+regex = "1.12.2"
+
+[features]
+cursor = []
 
 [lib]
 name = "utils"
@@ -40,3 +44,11 @@ path = "d04/toilet_roll_accessor.rs"
 [[bin]]
 name = "d04-2"
 path = "d04/toilet_roll_remover.rs"
+
+[[bin]]
+name = "d05-1"
+path = "d05/freshness.rs"
+
+[[bin]]
+name = "d05-2"
+path = "d05/fresher.rs"
