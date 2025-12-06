@@ -52,3 +52,11 @@ path = "d05/freshness.rs"
 [[bin]]
 name = "d05-2"
 path = "d05/fresher.rs"
+
+[[bin]]
+name = "d06-1"
+path = "d06/math.rs"
+
+[[bin]]
+name = "d06-2"
+path = "d06/transposed_math.rs"
