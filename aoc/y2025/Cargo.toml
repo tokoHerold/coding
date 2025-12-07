@@ -60,3 +60,11 @@ path = "d06/math.rs"
 [[bin]]
 name = "d06-2"
 path = "d06/transposed_math.rs"
+
+[[bin]]
+name = "d07-1"
+path = "d07/tachyon_manifold.rs"
+
+[[bin]]
+name = "d07-2"
+path = "d07/quantum_tachyon_manifold.rs"
