@@ -68,3 +68,11 @@ path = "d07/tachyon_manifold.rs"
 [[bin]]
 name = "d07-2"
 path = "d07/quantum_tachyon_manifold.rs"
+
+[[bin]]
+name = "d08-1"
+path = "d08/junction_connector.rs"
+
+[[bin]]
+name = "d08-2"
+path = "d08/short_circuit.rs"
