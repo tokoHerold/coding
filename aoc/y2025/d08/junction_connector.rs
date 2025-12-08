@@ -1,10 +1,12 @@
 use std::collections::{BTreeSet, HashSet};
+use std::time;
 
 use utils::context::Context;
 use utils::geometry::Vec3;
 use utils::verboseln;
 
 fn main() {
+    let start = time::Instant::now();
     // Read input
     let input = Context::get().read_lines_or_exit();
     let n_connections = Context::get_number() as usize;
@@ -81,5 +83,6 @@ fn main() {
         sizes.sort_unstable();
         sizes.iter().rev().take(3).product()
     };
-    println!("Product of three largest sets: {}", product_of_three_largest)
+    println!("Product of three largest sets: {}", product_of_three_largest);
+    println!("Took {:?}", start.elapsed());
 }

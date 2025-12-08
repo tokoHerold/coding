@@ -1,10 +1,11 @@
 use std::collections::{BTreeSet, HashSet};
-use std::process;
+use std::{process, time};
 
 use utils::context::Context;
 use utils::geometry::Vec3;
 
 fn main() {
+    let start = time::Instant::now();
     // Read input
     let input = Context::get().read_lines_or_exit();
     let lines = input.lines();
@@ -68,6 +69,7 @@ fn main() {
             let ja = &junctions[*junc_idx_a];
             let jb = &junctions[*junc_idx_b];
             println!("Last connection: {:?}, {:?} (x coords multiplied: {})", ja, jb, ja.x * jb.x);
+            println!("Took {:?}", start.elapsed());
             process::exit(0);
         }
     }
